@@ -1,0 +1,18 @@
+{
+    "vehicles": [
+        {
+            "tipo": "Moto",
+            "marca": "oudcati",
+            "modelo": "suusuki",
+            "annio": 2021,
+            "impuesto_base": 125.0
+        },
+        {
+            "tipo": "Moto",
+            "marca": "ducati",
+            "modelo": "514",
+            "annio": 2010,
+            "impuesto_base": 100.0
+        }
+    ]
+}

@@ -1,0 +1,93 @@
+#Clase Producto
+class Producto:
+    def __init__(self, nombre,precio):
+        self.__nombre = nombre
+        self.__precio = precio
+
+    def obtener_nombre(self):
+        return self.__nombre
+    
+    def obtener_preccio(self):
+        return self.__precio
+    
+    def actualizar_precio(self,nuevo_precio):
+        if nuevo_precio >=0:
+            self.__precio=nuevo_precio
+        else:
+            ("el precio no puede ser negatico: ")
+
+    def calcular_el_igv(self):
+        return self.__precio * 1.18
+    
+    def mostrar(self):
+        print(f"nombre: {self.__nombre}")
+        print(f"precio: {self.__precio}")
+        print(f"precio con igv: s/ {self.calcular_el_igv(): .2f}")
+#uso de la clse produco
+producto = Producto("laptop",2500)
+producto.mostrar()
+print("el nuevo precio de la lptop es:")
+producto.actualizar_precio(3000)
+producto.mostrar()
+
+
+
+
+
+
+
+
+
+"""
+
+
+    def actualizar_precio(self,nuevo_precio):
+        self.precio = nuevo_precio
+        print("\nPrecio actualizado correctamente: ")
+
+    def actualizar_stock(self,nuevo_stock):
+        self.stock = nuevo_stock
+        print("\nStock actualizado correctamente: ")
+
+    def aplicar_descuento(self,porcentaje_descuento):
+        descuento = self.precio*(porcentaje_descuento/100)
+        self.precio -= descuento
+        print(f"Descuento del {porcentaje_descuento}% aplicado. Nuevo precio. S/.{self.precio} ")
+
+    def realizar_venta(self,cantidad):
+        if cantidad <= self.stock:
+            self.stock -= cantidad
+            print(f"Venta realizada: {cantidad}: unidades vendidas")
+            print(f"Stock restantes{self.stock}")
+        else:
+            print("No hay suficiente stock para realizar la venta")
+
+
+#Crear objetos de la clase PRODUCTO
+producto1 = Producto("Arroz",3.50,100)
+producto2 = Producto("Azucar",4.50,50)
+producto3 = Producto("Aceite",8.00,80)
+producto4 = Producto("Leche",4.50,60)
+
+#Mostrar la información de los PRODUCTOS
+producto1.mostrar_informacion()
+producto2.mostrar_informacion()
+producto3.mostrar_informacion()
+producto4.mostrar_informacion()
+
+#PRODUCTO 1 MOSTRAR INFORMACION actualizada
+producto1.mostrar_informacion()
+
+#Aplicar descuento y mostrar la nueva informacion
+producto1.aplicar_descuento(10) #Aplicar 10% de descuento
+producto2.aplicar_descuento(10) #Aplicar 10% de descuento
+producto3.aplicar_descuento(10) #Aplicar 10% de descuento
+producto4.aplicar_descuento(10) #Aplicar 10% de descuento
+
+#Realizar la venta 
+producto1.realizar_venta(20)  #Vender 20 unidades
+producto1.mostrar_informacion()
+
+#Intentar vender mas unidades de las que hay en stock
+producto1.realizar_venta(90) #Intentar vender 90 unidades (No hay suficiente stock)
+"""

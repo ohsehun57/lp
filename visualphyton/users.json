@@ -1,0 +1,26 @@
+{
+  "denis": {
+    "id": "b0a97fc9-ee67-475a-8a00-1fe228c21864",
+    "email": "denis@gamil.com",
+    "password": "30c5461fc27b84f1f1ad0a83162a26882b22d11cdfa45978dd21c810056e8d0e",
+    "payment_method": "paypal",
+    "payment_details": {
+      "email": "denis@gmail.com"
+    },
+    "created_date": "2025-06-04T10:19:35.331792",
+    "subscription_status": "active",
+    "subscription_expires": "2025-07-04T10:19:35.331801"
+  },
+  "kai": {
+    "id": "efafbe3c-434f-4cd9-bc9b-1c529c82bd18",
+    "email": "exo@gmail.com",
+    "password": "30c5461fc27b84f1f1ad0a83162a26882b22d11cdfa45978dd21c810056e8d0e",
+    "payment_method": "paypal",
+    "payment_details": {
+      "email": "exo@gmail.com"
+    },
+    "created_date": "2025-07-07T10:59:54.076499",
+    "subscription_status": "active",
+    "subscription_expires": "2025-08-06T10:59:54.076513"
+  }
+}

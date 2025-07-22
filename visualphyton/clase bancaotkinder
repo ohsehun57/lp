@@ -1,0 +1,214 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+class CuentaBancaria:
+    def __init__(self, titular, saldo_inicial):
+        self._titular = titular
+        self._saldo_inicial = saldo_inicial
+        
+    def consultar_saldo(self):
+        return self._saldo_inicial
+        
+    def agregar_saldo(self, monto):
+        if monto > 0:
+            self._saldo_inicial += monto
+            return True, f"Depósito de S/. {monto:.2f} realizado con éxito"
+        else:
+            return False, "El monto a realizar debe ser positivo"
+            
+    def retirar(self, monto):
+        if 0 < monto <= self._saldo_inicial:
+            self._saldo_inicial -= monto
+            return True, f"Retiro de S/. {monto:.2f} realizado con éxito"
+        else:
+            return False, "Saldo insuficiente o monto inválido"
+
+
+class AplicacionBancaria:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Sistema de Cuenta Bancaria")
+        self.root.geometry("500x400")
+        self.root.configure(bg="#f0f0f0")
+        
+        # Inicializar la cuenta
+        self.cuenta = None
+        
+        # Crear marco principal
+        self.marco_principal = tk.Frame(root, bg="#f0f0f0", padx=20, pady=20)
+        self.marco_principal.pack(fill="both", expand=True)
+        
+        # Sección de creación de cuenta
+        self.crear_seccion_cuenta()
+        
+        # Sección de información
+        self.crear_seccion_info()
+        
+        # Sección de operaciones
+        self.crear_seccion_operaciones()
+        
+        # Sección de historial
+        self.crear_seccion_historial()
+        
+        # Iniciar con una cuenta de ejemplo (similar al código original)
+        self.inicializar_cuenta_ejemplo()
+        
+    def crear_seccion_cuenta(self):
+        # Marco para creación de cuenta
+        marco_cuenta = tk.LabelFrame(self.marco_principal, text="Crear Cuenta", bg="#f0f0f0", padx=10, pady=10)
+        marco_cuenta.pack(fill="x", pady=10)
+        
+        # Campos para titular y saldo inicial
+        tk.Label(marco_cuenta, text="Titular:", bg="#f0f0f0").grid(row=0, column=0, sticky="w", padx=5, pady=5)
+        self.entrada_titular = tk.Entry(marco_cuenta, width=25)
+        self.entrada_titular.grid(row=0, column=1, padx=5, pady=5)
+        
+        tk.Label(marco_cuenta, text="Saldo Inicial (S/.):", bg="#f0f0f0").grid(row=1, column=0, sticky="w", padx=5, pady=5)
+        self.entrada_saldo = tk.Entry(marco_cuenta, width=25)
+        self.entrada_saldo.grid(row=1, column=1, padx=5, pady=5)
+        
+        # Botón para crear cuenta
+        self.btn_crear = tk.Button(marco_cuenta, text="Crear Cuenta", command=self.crear_cuenta, 
+                                  bg="#4CAF50", fg="white", padx=10, pady=5)
+        self.btn_crear.grid(row=2, column=0, columnspan=2, pady=10)
+        
+    def crear_seccion_info(self):
+        # Marco para información de la cuenta
+        self.marco_info = tk.LabelFrame(self.marco_principal, text="Información de la Cuenta", bg="#f0f0f0", padx=10, pady=10)
+        self.marco_info.pack(fill="x", pady=5)
+        
+        # Etiquetas para mostrar información
+        tk.Label(self.marco_info, text="Titular:", bg="#f0f0f0").grid(row=0, column=0, sticky="w", padx=5, pady=5)
+        self.lbl_titular = tk.Label(self.marco_info, text="---", bg="#f0f0f0", width=25)
+        self.lbl_titular.grid(row=0, column=1, sticky="w", padx=5, pady=5)
+        
+        tk.Label(self.marco_info, text="Saldo Actual:", bg="#f0f0f0").grid(row=1, column=0, sticky="w", padx=5, pady=5)
+        self.lbl_saldo = tk.Label(self.marco_info, text="S/. 0.00", bg="#f0f0f0", width=25)
+        self.lbl_saldo.grid(row=1, column=1, sticky="w", padx=5, pady=5)
+        
+    def crear_seccion_operaciones(self):
+        # Marco para operaciones
+        marco_operaciones = tk.LabelFrame(self.marco_principal, text="Operaciones", bg="#f0f0f0", padx=10, pady=10)
+        marco_operaciones.pack(fill="x", pady=5)
+        
+        # Depósito
+        tk.Label(marco_operaciones, text="Monto a depositar (S/.):", bg="#f0f0f0").grid(row=0, column=0, sticky="w", padx=5, pady=5)
+        self.entrada_deposito = tk.Entry(marco_operaciones, width=10)
+        self.entrada_deposito.grid(row=0, column=1, padx=5, pady=5)
+        self.btn_depositar = tk.Button(marco_operaciones, text="Depositar", command=self.realizar_deposito,
+                                     bg="#2196F3", fg="white", padx=5, pady=2)
+        self.btn_depositar.grid(row=0, column=2, padx=5, pady=5)
+        
+        # Retiro
+        tk.Label(marco_operaciones, text="Monto a retirar (S/.):", bg="#f0f0f0").grid(row=1, column=0, sticky="w", padx=5, pady=5)
+        self.entrada_retiro = tk.Entry(marco_operaciones, width=10)
+        self.entrada_retiro.grid(row=1, column=1, padx=5, pady=5)
+        self.btn_retirar = tk.Button(marco_operaciones, text="Retirar", command=self.realizar_retiro,
+                                   bg="#F44336", fg="white", padx=5, pady=2)
+        self.btn_retirar.grid(row=1, column=2, padx=5, pady=5)
+        
+    def crear_seccion_historial(self):
+        # Marco para historial
+        marco_historial = tk.LabelFrame(self.marco_principal, text="Historial de Operaciones", bg="#f0f0f0", padx=10, pady=10)
+        marco_historial.pack(fill="both", expand=True, pady=5)
+        
+        # Área de texto para historial
+        self.txt_historial = tk.Text(marco_historial, width=50, height=6, wrap=tk.WORD)
+        self.txt_historial.pack(fill="both", expand=True, padx=5, pady=5)
+        self.txt_historial.config(state="disabled")
+        
+    def inicializar_cuenta_ejemplo(self):
+        # Crear cuenta de ejemplo (como en el código original)
+        self.entrada_titular.insert(0, "Raul")
+        self.entrada_saldo.insert(0, "500.00")
+        self.crear_cuenta()
+        
+    def crear_cuenta(self):
+        try:
+            titular = self.entrada_titular.get().strip()
+            saldo_inicial = float(self.entrada_saldo.get().strip())
+            
+            if not titular:
+                messagebox.showerror("Error", "Debe ingresar un nombre de titular")
+                return
+                
+            if saldo_inicial < 0:
+                messagebox.showerror("Error", "El saldo inicial debe ser un valor positivo")
+                return
+                
+            # Crear la cuenta
+            self.cuenta = CuentaBancaria(titular, saldo_inicial)
+            
+            # Actualizar la información
+            self.lbl_titular.config(text=titular)
+            self.lbl_saldo.config(text=f"S/. {saldo_inicial:.2f}")
+            
+            # Añadir al historial
+            self.agregar_historial(f"Cuenta creada para {titular} con saldo inicial de S/. {saldo_inicial:.2f}")
+            
+            messagebox.showinfo("Éxito", f"Cuenta creada para {titular} con saldo inicial de S/. {saldo_inicial:.2f}")
+            
+        except ValueError:
+            messagebox.showerror("Error", "El saldo inicial debe ser un valor numérico")
+            
+    def realizar_deposito(self):
+        if not self.cuenta:
+            messagebox.showerror("Error", "Primero debe crear una cuenta")
+            return
+            
+        try:
+            monto = float(self.entrada_deposito.get().strip())
+            exito, mensaje = self.cuenta.agregar_saldo(monto)
+            
+            if exito:
+                self.actualizar_saldo()
+                self.agregar_historial(mensaje)
+                messagebox.showinfo("Éxito", mensaje)
+                self.entrada_deposito.delete(0, tk.END)
+            else:
+                messagebox.showerror("Error", mensaje)
+                
+        except ValueError:
+            messagebox.showerror("Error", "El monto debe ser un valor numérico")
+            
+    def realizar_retiro(self):
+        if not self.cuenta:
+            messagebox.showerror("Error", "Primero debe crear una cuenta")
+            return
+            
+        try:
+            monto = float(self.entrada_retiro.get().strip())
+            exito, mensaje = self.cuenta.retirar(monto)
+            
+            if exito:
+                self.actualizar_saldo()
+                self.agregar_historial(mensaje)
+                messagebox.showinfo("Éxito", mensaje)
+                self.entrada_retiro.delete(0, tk.END)
+            else:
+                messagebox.showerror("Error", mensaje)
+                
+        except ValueError:
+            messagebox.showerror("Error", "El monto debe ser un valor numérico")
+            
+    def actualizar_saldo(self):
+        if self.cuenta:
+            self.lbl_saldo.config(text=f"S/. {self.cuenta.consultar_saldo():.2f}")
+            
+    def agregar_historial(self, mensaje):
+        import datetime
+        
+        fecha_hora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        entrada = f"[{fecha_hora}] {mensaje}\n"
+        
+        self.txt_historial.config(state="normal")
+        self.txt_historial.insert(tk.END, entrada)
+        self.txt_historial.see(tk.END)
+        self.txt_historial.config(state="disabled")
+
+
+# Iniciar la aplicación
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AplicacionBancaria(root)
+    root.mainloop()

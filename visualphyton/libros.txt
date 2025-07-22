@@ -1,0 +1,9 @@
+[
+    {
+        "titulo": "exo",
+        "autor": "tyu",
+        "isbn": "85",
+        "reservado": false,
+        "reservado_por": null
+    }
+]

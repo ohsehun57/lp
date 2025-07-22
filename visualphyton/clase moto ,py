@@ -1,0 +1,107 @@
+# Clase base: Vehiculo
+class Vehiculo:
+    def __init__(self, marca, modelo, annio):
+        self.marca = marca
+        self.modelo = modelo
+        self.annio = annio
+
+    def calcular_impuesto(self):
+        pass  # Método que será sobrescrito
+
+
+# Subclase: Moto
+# Herencia: Hereda Vehiculo
+class Moto(Vehiculo):
+    def __init__(self, marca, modelo, annio, impuesto_base):
+        super().__init__(marca, modelo, annio)
+        # Encapsulamiento
+        self.__impuesto_base = impuesto_base
+
+    def get_impuesto_base(self):
+        return self.__impuesto_base
+
+    # Polimorfismo
+    def calcular_impuesto(self):
+        return self.__impuesto_base
+
+
+# Subclase: Auto
+# Herencia: Hereda Vehiculo
+class Auto(Vehiculo):
+    def __init__(self, marca, modelo, annio, impuesto_base, numero_puertas):
+        super().__init__(marca, modelo, annio)
+        # Encapsulamiento
+        self.__impuesto_base = impuesto_base
+        self.__numero_puertas = numero_puertas
+
+    def get_impuesto_base(self):
+        return self.__impuesto_base
+
+    def get_numero_puertas(self):
+        return self.__numero_puertas
+
+    # Polimorfismo
+    def calcular_impuesto(self):
+        # Autos con más de 2 puertas pagan 10% extra
+        if self.__numero_puertas > 2:
+            return self.__impuesto_base * 1.10
+        return self.__impuesto_base
+
+
+# Menú Principal
+def main():
+    lista_vehiculos = []
+
+    while True:
+        print("\n****** SISTEMA DE VEHÍCULOS ******")
+        print("1. Registrar Moto")
+        print("2. Registrar Auto")
+        print("3. Mostrar Vehículos")
+        print("4. Calcular Impuesto Total")
+        print("5. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == '1':
+            marca = input("Marca: ")
+            modelo = input("Modelo: ")
+            annio = input("Año: ")
+            impuesto_base = float(input("Impuesto base: "))
+            moto = Moto(marca, modelo, annio, impuesto_base)
+            lista_vehiculos.append(moto)
+            print("Moto registrada correctamente.")
+
+        elif opcion == '2':
+            marca = input("Marca: ")
+            modelo = input("Modelo: ")
+            annio = input("Año: ")
+            impuesto_base = float(input("Impuesto base: "))
+            numero_puertas = int(input("Número de puertas: "))
+            auto = Auto(marca, modelo, annio, impuesto_base, numero_puertas)
+            lista_vehiculos.append(auto)
+            print("Auto registrado correctamente.")
+
+        elif opcion == '3':
+            if not lista_vehiculos:
+                print("No hay vehículos registrados.")
+            else:
+                print("\nListado de Vehículos:")
+                for idx, vehiculo in enumerate(lista_vehiculos):
+                    tipo = vehiculo.__class__.__name__
+                    print(f"{idx+1}. Tipo: {tipo}, Marca: {vehiculo.marca}, Modelo: {vehiculo.modelo}, Año: {vehiculo.annio}, Impuesto: {vehiculo.calcular_impuesto():.2f}")
+
+        elif opcion == '4':
+            total = sum([vehiculo.calcular_impuesto() for vehiculo in lista_vehiculos])
+            print(f"Impuesto total a pagar: {total:.2f}")
+
+        elif opcion == '5':
+            print("Saliendo del sistema...")
+            break
+
+        else:
+            print("Opción inválida. Intente de nuevo.")
+
+
+# Ejecutar programa
+if __name__ == "__main__":
+    main()
